@@ -11,11 +11,90 @@
 <body>
 
     <script>
-        var xhr = new XMLHttpRequest();
-        xhr.open('get', 'xxx');
-        xhr.onreadystatechange();
-        xhr.send();
+        function asyFn() {
+            return new Promise(
+                (resolve, reject) => {
+                    var num = Math.ceil(Math.random() * 10); //生成1-10的随机数
+                    if (num > 5) {
+                        resolve(num)
+                    } else {
+                        reject(num)
+                    }
+                }
+            )
+        }
+        asyFn().then((data) => {
+            console.log('success', data)
+        }).catch((err) => { console.log(err) })
+        // var xhr = new XMLHttpRequest();
+        // xhr.open('get', 'xxx');
+        // xhr.onreadystatechange = function () { }
+        // xhr.send();
         //TODO 添加测试题目
+
+        var cloneObj = function (obj) {
+            var newObj = obj instanceof Array ? [] : {};
+            for (var key in obj) {
+                var val = obj[key];
+                newObj[key] = typeof val === 'object' ? cloneObj(val) : val;
+            }
+            return newObj;
+        };
+
+        //bubble
+        function bubbleSort(items) {
+            var length = items.length;
+            for (var i = 0; i < length; i++) {
+                for (var j = 0; j < (length - i - 1); j++) {
+                    if (items[j] > items[j + 1]) {
+                        // var tmp = items[j];  //Temporary variable to hold the current number
+                        // items[j] = items[j + 1]; //Replace current number with adjacent number
+                        // items[j + 1] = tmp; //Replace adjacent number with current number
+                        [items[j], items[j + 1]] = [items[j + 1], items[j]]
+                    }
+                }
+            }
+        }
+        var quickSort = function (arr) {
+            if (arr.length <= 1) { return arr }
+            var 基准下标 = Math.floor(arr.length / 2);
+            var 基准值 = arr.splice(基准下标, 1)[0]
+            var left = [];
+            var right = [];
+            for (var i = 0; i < arr.length; i++) {
+                arr[i] < 基准值 ? left.push(arr[i]) : right.push(arr[i]);
+            }
+            return quickSort(left).concat([基准值], quickSort(right));
+        };
+        //去重
+        var arr = ['a', 'b', 'a', 'c', 'a', 'd', '1', 1, '1'];
+        Array.from(new Set(arr));
+        var array_unique = arr.filter(function (element, index, array) {
+            return array.indexOf(element) === index;
+        });
+        function unique(arr) {
+            let hashTable = {};
+            let newArr = [];
+            for (let i = 0; i < arr.length; i++) {
+                let value = arr[i];
+                if (!hashTable[value]) {
+                    hashTable[value] = true;
+                    newArr.push(value);
+                }
+            }
+            return newArr;
+        }
+        unique(arr)
+
+        //乱序
+        function shuffle(a) {
+            for (let i = a.length; i; i--) {
+                let j = Math.floor(Math.random() * i);
+                [a[i - 1], a[j]] = [a[j], a[i - 1]];
+            }
+            return a;
+        }
+
     </script>
 </body>
 
